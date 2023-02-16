@@ -3,7 +3,7 @@ import { useAppSelector } from "../app/hooks";
 import iconReply from "../assets/icon-reply.svg";
 import styles from "../styles/Comment.module.css";
 import "../sass/Comment.scss";
-import Modal from "./Modal";
+import { Modal } from "./Modal";
 import { CommentProps } from "../types/CommentProps";
 import { ReplyForm } from "./ReplyForm";
 import { EditForm } from "./EditForm";

@@ -9,7 +9,7 @@ type ModalProps = {
   setModalState: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Modal({ setModalState, id, commentId, type }: ModalProps) {
+export function Modal({ setModalState, id, commentId, type }: ModalProps) {
 
   const dispatch = useAppDispatch();
 

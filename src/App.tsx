@@ -1,7 +1,6 @@
 
 import './App.css'
 import { CommentsList } from './components/CommentsList'
-import Modal from './components/Modal'
 
 
 
