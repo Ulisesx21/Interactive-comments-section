@@ -1,0 +1,74 @@
+.modal_background {
+  background: hsla(212, 24%, 26%, 0.35);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.modal_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
+  position: fixed;
+  height: 220px;
+  width: 360px;
+  padding: 25px;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 10px;
+}
+
+.modal_content h3 {
+  color: hsl(212, 24%, 26%);
+  font-size: 1.3rem;
+  text-align: left;
+  font-weight: 500;
+}
+
+.modal_content span {
+  color: hsl(211, 10%, 45%);
+  line-height: 1.4;
+}
+
+.modal_btns_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.modal_cancel_btn {
+  border: none;
+  background: hsl(211, 10%, 45%);
+  border-radius: 5px;
+  color: white;
+  padding: 12px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 100%;
+}
+.modal_cancel_btn:hover {
+  background: hsla(211, 10%, 45%, 0.36);
+}
+
+.modal_delete_btn {
+  border: none;
+  background: hsl(358, 79%, 66%);
+  border-radius: 5px;
+  color: white;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 100%;
+}
+.modal_delete_btn:hover {
+  background: hsl(357, 100%, 86%);
+}

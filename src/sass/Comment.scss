@@ -1,0 +1,37 @@
+.score_button{
+  &:hover{
+      .score_b {
+          filter: brightness(0) saturate(100%) invert(36%) sepia(31%) saturate(1443%) hue-rotate(202deg) brightness(89%) contrast(86%);
+      }
+  }
+}
+
+.delete_button{
+  &:hover{
+      .delete_b {
+          filter: brightness(0) saturate(100%) invert(84%) sepia(71%) saturate(6505%) hue-rotate(288deg) brightness(103%) contrast(107%);
+      }
+  }
+}
+
+.edit_button{
+  &:hover{
+      .edit_b {
+          filter: brightness(0) saturate(100%) invert(82%) sepia(3%) saturate(2865%) hue-rotate(201deg) brightness(97%) contrast(93%);
+      }
+  }
+}
+
+.reply_button{
+  &:hover{
+      .reply_b {
+          filter: brightness(0) saturate(100%) invert(82%) sepia(3%) saturate(2865%) hue-rotate(201deg) brightness(97%) contrast(93%);
+      }
+  }
+}
+
+.delete_b,
+.edit_b,
+.reply_b {
+  margin-right: 6px;
+}

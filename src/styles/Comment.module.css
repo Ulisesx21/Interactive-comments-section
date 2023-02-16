@@ -1,0 +1,157 @@
+
+.comment_container {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+  margin: 10px 0;
+  padding: 22px;
+  border-radius: 8px;
+  max-width: 715px;
+  width: 715px;
+}
+
+.reply_container {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+  margin: 10px 0;
+  padding: 22px;
+  border-radius: 8px;
+  width: 638px;
+  max-width: 638px;
+}
+
+.comment_top_side {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.img_name_create_container {
+  display: flex;
+  align-items: center;
+}
+.user_img {
+  width: 30px;
+  cursor: pointer;
+}
+.username {
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.you_box {
+  margin-left: 8px;
+  background: hsl(238, 40%, 52%);
+  border-radius: 2px;
+  color: white;
+  font-size: 12px;
+  padding: 2px 5px;
+}
+.createAt {
+  color: hsl(211, 10%, 45%);
+  margin-left: 10px;
+}
+
+.reply_button {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: white;
+    font-weight: 500;
+    color: hsl(238, 40%, 52%);
+    cursor: pointer;
+}
+.reply_button:hover {
+  color: hsl(239, 57%, 85%);
+}
+
+.content_container {
+  font-size: 16px;
+  color: hsl(211, 10%, 45%);
+  padding-top: 10px;
+}
+.replyingTo {
+  color: hsl(238, 40%, 52%);
+  font-weight: 500;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.content_edit_comment {
+  text-align: left;
+  width: auto;
+  font-size: 1.1rem;
+}
+
+.content_edit_reply {
+  text-align: left;
+  width: auto;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 800px){
+  .comment_container {
+    width: 600px;
+  }
+  .reply_container {
+    width: 550px;
+  }
+}
+
+@media (max-width: 700px){
+  .comment_container {
+    flex-direction: column-reverse;
+    width: 550px;
+  }
+  .reply_container {
+    width: 500px;
+    flex-direction: column-reverse;
+  }
+  .btns_container {
+    display: none;
+  }
+}
+
+@media (max-width: 650px){
+  .comment_container {
+    width: 500px;
+  }
+  .reply_container {
+    width: 450px;
+  }
+}
+
+@media (max-width: 600px){
+  .comment_container {
+    width: 450px;
+  }
+  .reply_container {
+    width: 420px;
+  }
+}
+
+@media (max-width: 520px){
+  .comment_container {
+    width: 380px;
+  }
+  
+  .reply_container {
+    width: 350px;
+  }
+}
+
+@media (max-width: 450px){
+  .comment_container {
+    width: 350px;
+  }
+  .reply_container {
+    width: 320px;
+  }
+}
+
+@media (max-width: 450px){
+  .comment_container {
+    width: 340px;
+  }
+}

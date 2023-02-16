@@ -1,0 +1,25 @@
+.delete_button {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: none;
+  color: hsl(358, 79%, 66%);
+  cursor: pointer;
+  font-weight: 500;
+}
+.delete_button:hover {
+  color:hsl(357, 100%, 86%);
+}
+.edit_button {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  border: none;
+  background: white;
+  color: hsl(238, 40%, 52%);
+  font-weight: 500;
+  cursor: pointer;
+}
+.edit_button:hover {
+  color: hsl(239, 57%, 85%);
+}
