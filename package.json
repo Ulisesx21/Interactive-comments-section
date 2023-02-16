@@ -1,7 +1,7 @@
 {
   "name": "comments-section",
   "private": true,
-  "homepage": "https://ulisesx21.github.io/Job-listings/",
+  "homepage": "https://ulisesx21.github.io/interactive-comment-section/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
