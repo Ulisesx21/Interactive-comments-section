@@ -2,7 +2,6 @@ import { useAppSelector } from "../app/hooks";
 import { Comment } from "./Comment";
 import { CommentForm } from "./CommentForm";
 import styles from "../styles/CommentsList.module.css";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 
 export const CommentsList = () => {
 
