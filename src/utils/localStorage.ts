@@ -1,6 +1,6 @@
 import { WritableDraft } from "immer/dist/internal";
 
-export const getItem = (key: string = "state") => {
+export const getItem = (key: string) => {
   return JSON.parse(localStorage.getItem(key) || JSON.stringify(""));
 };
 

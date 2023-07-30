@@ -4,7 +4,7 @@ import { Comment } from "../../types/DataTypes";
 import { getItem, setItem } from "../../utils/localStorage";
 
 const initialState =
-  (getItem("state") as Comment[]) || (data.comments as Comment[]);
+  (getItem("commentsState") as Comment[]) || (data.comments as Comment[]);
 
 const commentsSlice = createSlice({
   name: "comments",
@@ -20,7 +20,7 @@ const commentsSlice = createSlice({
         user: data.currentUser,
         replies: [],
       });
-      setItem("state", JSON.stringify(state));
+      setItem("commentsState", JSON.stringify(state));
     },
 
     updateComment(
@@ -31,7 +31,7 @@ const commentsSlice = createSlice({
       const comment = state.find((comment) => comment.id === id);
       if (comment) {
         comment.content = content;
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
 
@@ -40,7 +40,7 @@ const commentsSlice = createSlice({
       const commentIdx = state.findIndex((comment) => comment.id === id);
       if (commentIdx) {
         state.splice(commentIdx, 1);
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
 
@@ -69,7 +69,7 @@ const commentsSlice = createSlice({
           user: data.currentUser,
         });
 
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
 
@@ -88,7 +88,7 @@ const commentsSlice = createSlice({
           ? null
           : comment.score--;
 
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
 
@@ -109,7 +109,7 @@ const commentsSlice = createSlice({
 
         comment.replies[replyIdx].content = content;
 
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
 
@@ -126,7 +126,7 @@ const commentsSlice = createSlice({
         );
         comment.replies.splice(replyIdx, 1);
 
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
 
@@ -151,7 +151,7 @@ const commentsSlice = createSlice({
           ? null
           : comment.replies[replyIdx].score--;
 
-        setItem("state", JSON.stringify(state));
+        setItem("commentsState", JSON.stringify(state));
       }
     },
   },
