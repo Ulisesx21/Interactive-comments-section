@@ -1,6 +1,6 @@
 import iconEdit from "../assets/icon-edit.svg";
 import iconDelete from "../assets/icon-delete.svg";
-import styles from "../styles/DeleteEditBtnsMobile.module.css"
+import styles from "../styles/DeleteEditBtnsMobile.module.css";
 
 type DeleteEditBtnsMobile = {
   id: number;
@@ -8,9 +8,15 @@ type DeleteEditBtnsMobile = {
   setModalState: React.Dispatch<React.SetStateAction<boolean>>;
   editComment: (id: number) => void;
   editReply: () => void;
-}
+};
 
-export const DeleteEditBtnsMobile = ({ id, type, setModalState, editComment, editReply }: DeleteEditBtnsMobile) => {
+export const DeleteEditBtnsMobile = ({
+  id,
+  type,
+  setModalState,
+  editComment,
+  editReply,
+}: DeleteEditBtnsMobile) => {
   return (
     <div style={{ display: "flex" }}>
       <button

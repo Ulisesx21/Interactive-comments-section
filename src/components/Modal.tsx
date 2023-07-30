@@ -10,8 +10,15 @@ type ModalProps = {
 };
 
 export function Modal({ setModalState, id, commentId, type }: ModalProps) {
-
   const dispatch = useAppDispatch();
+
+  const handleRemove = () => {
+    dispatch(
+      type === "comment"
+        ? removeComment({ id })
+        : removeReply({ commentId, replyId: id })
+    );
+  };
 
   return (
     <div>
@@ -30,13 +37,7 @@ export function Modal({ setModalState, id, commentId, type }: ModalProps) {
             NO, CANCEL
           </button>
           <button
-            onClick={() => {
-              dispatch(
-                type === "comment"
-                  ? removeComment(id)
-                  : removeReply({ commentId, replyId: id })
-              );
-            }}
+            onClick={() => handleRemove()}
             className={styles.modal_delete_btn}
           >
             YES, DELETE

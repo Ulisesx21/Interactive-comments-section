@@ -3,10 +3,8 @@ import iconMinus from "../assets/icon-minus.svg";
 import iconReply from "../assets/icon-reply.svg";
 import { useAppDispatch } from "../app/hooks";
 import {
-  decreaseCommentQuantity,
-  decreaseReplyQuantity,
-  increaseCommentQuantity,
-  increaseReplyQuantity,
+  changeCommentScore,
+  changeReplyScore,
 } from "../features/comments/commentsSlice";
 import styles from "../styles/ScoreButton.module.css";
 import "../sass/Comment.scss";
@@ -25,33 +23,47 @@ type ScoreButton = {
   setReplyState: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const ScoreButton = ({ type, id, commentId, score, setModalState, editComment, editReply, user, setReplyState }: ScoreButton) => {
+export const ScoreButton = ({
+  type,
+  id,
+  commentId,
+  score,
+  setModalState,
+  editComment,
+  editReply,
+  user,
+  setReplyState,
+}: ScoreButton) => {
   const dispatch = useAppDispatch();
+
+  const handleIncreaseScore = () => {
+    dispatch(
+      type === "comment"
+        ? changeCommentScore({ id, actionType: "plus" })
+        : changeReplyScore({ replyId: id, commentId, actionType: "plus" })
+    );
+  };
+
+  const handleDecreaseScore = () => {
+    dispatch(
+      type === "comment"
+        ? changeCommentScore({ id })
+        : changeReplyScore({ replyId: id, commentId })
+    );
+  };
 
   return (
     <div className={styles.score_container}>
       <div className={styles.score}>
         <button
-          onClick={() =>
-            dispatch(
-              type === "comment"
-                ? increaseCommentQuantity(id)
-                : increaseReplyQuantity({ replyId: id, commentId })
-            )
-          }
+          onClick={() => handleIncreaseScore()}
           className={`${styles.score_button} score_button`}
         >
           <img src={iconPlus} className="score_b" />
         </button>
         <span className={styles.score_number}>{score}</span>
         <button
-          onClick={() =>
-            dispatch(
-              type === "comment"
-                ? decreaseCommentQuantity(id)
-                : decreaseReplyQuantity({ replyId: id, commentId })
-            )
-          }
+          onClick={() => handleDecreaseScore()}
           className={`${styles.score_button} score_button`}
         >
           <img src={iconMinus} className={`${styles.minus_btn} score_b`} />
@@ -59,12 +71,12 @@ export const ScoreButton = ({ type, id, commentId, score, setModalState, editCom
       </div>
       <div className={`${styles.buttons_container}`}>
         {user.username === "juliusomo" ? (
-          <DeleteEditBtnsMobile 
-          editComment={editComment}
-          editReply={editReply}
-          id={id}
-          setModalState={setModalState}
-          type={type}
+          <DeleteEditBtnsMobile
+            editComment={editComment}
+            editReply={editReply}
+            id={id}
+            setModalState={setModalState}
+            type={type}
           />
         ) : (
           <button

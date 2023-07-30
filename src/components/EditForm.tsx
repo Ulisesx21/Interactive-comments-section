@@ -21,6 +21,21 @@ export const EditForm = ({
 }: EditFormProps) => {
   const dispatch = useAppDispatch();
 
+  const handleEdit = () => {
+    if (editInput !== "") {
+      dispatch(
+        type === "comment"
+          ? updateComment({ id, content: editInput })
+          : updateReply({
+              commentId,
+              replyId: id,
+              content: editInput,
+            })
+      );
+      setEditState(false);
+    }
+  };
+
   return (
     <div className={styles.edit_container}>
       <textarea
@@ -29,23 +44,7 @@ export const EditForm = ({
         className={styles.text_area}
       ></textarea>
       <div className={styles.button_update_container}>
-        <button
-          onClick={() => {
-            if (editInput !== "") {
-              dispatch(
-                type === "comment"
-                  ? updateComment({ id, content: editInput })
-                  : updateReply({
-                      commentId,
-                      replyId: id,
-                      content: editInput,
-                    })
-              );
-              setEditState(false);
-            }
-          }}
-          className={styles.update_button}
-        >
+        <button onClick={() => handleEdit()} className={styles.update_button}>
           UPDATE
         </button>
       </div>

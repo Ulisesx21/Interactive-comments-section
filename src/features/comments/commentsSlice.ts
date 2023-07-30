@@ -1,33 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import data from "../../data/data.json";
+import data from "../../mocks/data.json";
 import { Comment } from "../../types/DataTypes";
+import { getItem, setItem } from "../../utils/localStorage";
 
-const initialState = localStorage.getItem("state") === null ? data.comments as Comment[] : JSON.parse(localStorage.getItem("state")!)  as Comment[];
+const initialState =
+  (getItem("state") as Comment[]) || (data.comments as Comment[]);
 
 const commentsSlice = createSlice({
   name: "comments",
   initialState,
   reducers: {
-    addComment(state, action: PayloadAction<string>) {
-      state = [
-        ...state,
-        {
-          id: Math.random(),
-          content: action.payload,
-          createdAt: "now",
-          score: 0,
-          user: {
-            image: {
-              png: "./images/avatars/image-juliusomo.png",
-              webp: "./images/avatars/image-juliusomo.webp",
-            },
-            username: "juliusomo",
-          },
-          replies: [],
-        },
-      ];
-      localStorage.setItem("state", JSON.stringify(state))
-      return state
+    addComment(state, action: PayloadAction<{ content: string }>) {
+      const { content } = action.payload;
+      state.push({
+        id: Math.random(),
+        content,
+        createdAt: "now",
+        score: 0,
+        user: data.currentUser,
+        replies: [],
+      });
+      setItem("state", JSON.stringify(state));
     },
 
     updateComment(
@@ -35,21 +28,20 @@ const commentsSlice = createSlice({
       action: PayloadAction<{ id: number; content: string | undefined }>
     ) {
       const { id, content } = action.payload;
-      state = state.map((comment) => {
-        if (comment.id === id) {
-          return { ...comment, content };
-        } else {
-          return comment;
-        }
-      });
-      localStorage.setItem("state", JSON.stringify(state))
-      return state
+      const comment = state.find((comment) => comment.id === id);
+      if (comment) {
+        comment.content = content;
+        setItem("state", JSON.stringify(state));
+      }
     },
 
-    removeComment(state, action: PayloadAction<number>) {
-      state = state.filter((comment) => comment.id !== action.payload);
-      localStorage.setItem("state", JSON.stringify(state))
-      return state
+    removeComment(state, action: PayloadAction<{ id: number }>) {
+      const { id } = action.payload;
+      const commentIdx = state.findIndex((comment) => comment.id === id);
+      if (commentIdx) {
+        state.splice(commentIdx, 1);
+        setItem("state", JSON.stringify(state));
+      }
     },
 
     replyComment(
@@ -62,36 +54,42 @@ const commentsSlice = createSlice({
       }>
     ) {
       const { id, reply, commentId, userName } = action.payload;
+      
+      const comment = commentId 
+      ? state.find((comment) => comment.id === commentId)
+      : state.find((comment) => comment.id === id);
+      
+      if (comment) {
+        comment.replies.push({
+          id: Math.random(),
+          content: reply,
+          createdAt: "now",
+          score: 0,
+          replyingTo: commentId ? userName : comment.user.username,
+          user: data.currentUser,
+        });
 
-      state = state.map((comment) => {
-        if (comment.id === (commentId ? commentId : id)) {
-          return {
-            ...comment,
-            replies: [
-              ...comment.replies,
-              {
-                id: Math.random(),
-                content: reply,
-                createdAt: "now",
-                score: 0,
-                replyingTo: commentId ? userName : comment.user.username,
-                user: {
-                  image: {
-                    png: "./images/avatars/image-juliusomo.png",
-                    webp: "./images/avatars/image-juliusomo.webp",
-                  },
-                  username: "juliusomo",
-                },
-              },
-            ],
-          };
-          
-        } else {
-          return comment;
-        }
-      });
-      localStorage.setItem("state", JSON.stringify(state))
-      return state
+        setItem("state", JSON.stringify(state));
+      }
+    },
+
+    changeCommentScore(
+      state,
+      action: PayloadAction<{ id: number; actionType?: string }>
+    ) {
+      const { id, actionType } = action.payload;
+
+      const comment = state.find((comment) => comment.id === id);
+
+      if (comment) {
+        actionType === "plus"
+          ? comment.score++
+          : comment.score === 0
+          ? null
+          : comment.score--;
+
+        setItem("state", JSON.stringify(state));
+      }
     },
 
     updateReply(
@@ -105,25 +103,13 @@ const commentsSlice = createSlice({
       const { commentId, replyId, content } = action.payload;
       const comment = state.find((comment) => comment.id === commentId);
       if (comment) {
-        const updatedReplies = comment.replies.map((reply) => {
-          if (reply.id === replyId) {
-            return { ...reply, content };
-          } else {
-            return reply;
-          }
-        });
+        const replyIdx = comment.replies.findIndex(
+          (reply) => reply.id === replyId
+        );
 
-        state = state.map((comment) => {
-          if (comment.id === commentId) {
-            return { ...comment, replies: updatedReplies };
-          } else {
-            return comment;
-          }
-        });
-        localStorage.setItem("state", JSON.stringify(state))
-        return state
-      } else {
-        return state;
+        comment.replies[replyIdx].content = content;
+
+        setItem("state", JSON.stringify(state));
       }
     },
 
@@ -133,102 +119,39 @@ const commentsSlice = createSlice({
     ) {
       const { commentId, replyId } = action.payload;
       let comment = state.find((comment) => comment.id === commentId);
+
       if (comment) {
-        let updateReplies = comment.replies.filter(
-          (reply) => reply.id !== replyId
+        const replyIdx = comment.replies.findIndex(
+          (reply) => reply.id === replyId
         );
-        state = state.map((comment) => {
-          if (comment.id === commentId) {
-            return { ...comment, replies: updateReplies };
-          } else {
-            return comment;
-          }
-        });
-        localStorage.setItem("state", JSON.stringify(state))
-        return state
+        comment.replies.splice(replyIdx, 1);
+
+        setItem("state", JSON.stringify(state));
       }
     },
 
-    increaseReplyQuantity(
+    changeReplyScore(
       state,
-      action: PayloadAction<{ replyId: number; commentId: number | undefined }>
+      action: PayloadAction<{
+        replyId: number;
+        commentId: number | undefined;
+        actionType?: string;
+      }>
     ) {
-      const { replyId, commentId } = action.payload;
+      const { replyId, commentId, actionType } = action.payload;
       const comment = state.find((comment) => comment.id === commentId);
       if (comment) {
-        const updatedReplies = comment.replies.map((reply) => {
-          if (reply.id === replyId) {
-            return { ...reply, score: reply.score + 1 };
-          } else {
-            return reply;
-          }
-        });
+        const replyIdx = comment.replies.findIndex(
+          (reply) => reply.id === replyId
+        );
 
-        state = state.map((comment) => {
-          if (comment.id === commentId) {
-            return { ...comment, replies: updatedReplies };
-          } else {
-            return comment;
-          }
-        });
-        localStorage.setItem("state", JSON.stringify(state))
-        return state
-      }
-    },
+        actionType === "plus"
+          ? comment.replies[replyIdx].score++
+          : comment.replies[replyIdx].score === 0
+          ? null
+          : comment.replies[replyIdx].score--;
 
-    decreaseReplyQuantity(
-      state,
-      action: PayloadAction<{ replyId: number; commentId: number | undefined}>
-    ) {
-      const { replyId, commentId } = action.payload;
-      const comment = state.find((comment) => comment.id === commentId);
-      if (comment) {
-        const updatedReplies = comment.replies.map((reply) => {
-          if (reply.id === replyId && reply.score > 0) {
-            return { ...reply, score: reply.score - 1 };
-          } else {
-            return reply;
-          }
-        });
-
-        state = state.map((comment) => {
-          if (comment.id === commentId) {
-            return { ...comment, replies: updatedReplies };
-          } else {
-            return comment;
-          }
-        });
-
-        localStorage.setItem("state", JSON.stringify(state))
-        return state
-      }
-    },
-
-    increaseCommentQuantity(state, action: PayloadAction<number>) {
-      state = state.map((comment) => {
-        if (comment.id === action.payload) {
-          return { ...comment, score: comment.score + 1 };
-        } else {
-          return comment;
-        }
-      });
-      localStorage.setItem("state", JSON.stringify(state))
-      return state
-    },
-
-    decreaseCommentQuantity(state, action: PayloadAction<number>) {
-      if (state.find((comment) => comment.id === action.payload)?.score === 0) {
-        return state;
-      } else {
-        state = state.map((comment) => {
-          if (comment.id === action.payload) {
-            return { ...comment, score: comment.score - 1 };
-          } else {
-            return comment;
-          }
-        });
-        localStorage.setItem("state", JSON.stringify(state))
-        return state
+        setItem("state", JSON.stringify(state));
       }
     },
   },
@@ -241,10 +164,8 @@ export const {
   replyComment,
   updateReply,
   removeReply,
-  increaseCommentQuantity,
-  decreaseCommentQuantity,
-  increaseReplyQuantity,
-  decreaseReplyQuantity,
+  changeCommentScore,
+  changeReplyScore,
 } = commentsSlice.actions;
 
 export default commentsSlice.reducer;

@@ -1,7 +1,7 @@
 import { useAppDispatch } from "../app/hooks";
 import styles from "../styles/ReplyForm.module.css";
 import { replyComment } from "../features/comments/commentsSlice";
-import data from "../data/data.json";
+import data from "../mocks/data.json";
 import { User } from "../types/DataTypes";
 
 type ReplyFormProps = {
@@ -23,6 +23,21 @@ export const ReplyForm = ({
 }: ReplyFormProps) => {
   const dispatch = useAppDispatch();
 
+  const handleReply = () => {
+    if (replyInput !== "") {
+      dispatch(
+        replyComment({
+          id,
+          reply: replyInput,
+          commentId,
+          userName: user.username,
+        })
+      );
+      setReplyState(false);
+      setReplyInput("");
+    }
+  };
+
   return (
     <div className={styles.reply_comment_container}>
       <div className={styles.img_container}>
@@ -41,7 +56,7 @@ export const ReplyForm = ({
       />
       <div className={styles.reply_buttons_container}>
         <div className={styles.img_mobile_container}>
-          <div style={{display: "flex", alignItems: "center"}}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <img
               src={data.currentUser.image.png}
               className={styles.reply_user_img}
@@ -50,20 +65,7 @@ export const ReplyForm = ({
         </div>
         <div className={styles.reply_cancel_container}>
           <button
-            onClick={() => {
-              if (replyInput !== "") {
-                dispatch(
-                  replyComment({
-                    id,
-                    reply: replyInput,
-                    commentId,
-                    userName: user.username,
-                  })
-                );
-                setReplyState(false);
-                setReplyInput("");
-              }
-            }}
+            onClick={() => handleReply()}
             className={styles.reply_button_reply}
           >
             REPLY

@@ -54,16 +54,16 @@ export const Comment = ({
           type === "comment" ? styles.comment_container : styles.reply_container
         }
       >
-        <ScoreButton 
-        type={type} 
-        id={id} 
-        commentId={commentId} 
-        score={score} 
-        editComment={editComment}
-        editReply={editReply}
-        setModalState={setModalState}
-        setReplyState={setReplyState}
-        user={user}
+        <ScoreButton
+          type={type}
+          id={id}
+          commentId={commentId}
+          score={score}
+          editComment={editComment}
+          editReply={editReply}
+          setModalState={setModalState}
+          setReplyState={setReplyState}
+          user={user}
         />
         <div style={{ width: "100%" }}>
           <div className={styles.comment_top_side}>

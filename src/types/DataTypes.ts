@@ -13,7 +13,7 @@ export type Comment = {
 
 export type Reply = {
   id: number
-  content: string | undefined
+  content: string | undefined;
   createdAt: string
   score: number
   replyingTo: string

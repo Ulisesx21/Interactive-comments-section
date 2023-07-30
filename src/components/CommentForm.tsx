@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../app/hooks";
 import { addComment } from "../features/comments/commentsSlice";
-import data from "../data/data.json";
+import data from "../mocks/data.json";
 import styles from "../styles/CommentForm.module.css";
 
 export const CommentForm = () => {
@@ -11,6 +11,13 @@ export const CommentForm = () => {
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
+  };
+
+  const handleAddComment = () => {
+    if (input !== "") {
+      dispatch(addComment({ content: input }));
+      setInput("");
+    }
   };
 
   return (
@@ -35,12 +42,7 @@ export const CommentForm = () => {
           />
         </div>
         <button
-          onClick={() => {
-            if (input !== "") {
-              dispatch(addComment(input));
-              setInput("");
-            }
-          }}
+          onClick={() => handleAddComment()}
           className={styles.comment_form_button}
         >
           SEND
